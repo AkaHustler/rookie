@@ -2,6 +2,9 @@
 
 namespace App\Console;
 
+use App\Console\Commands\Interviews;
+use App\Console\Commands\Rookie;
+use App\Console\Commands\SortArithmetic;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 
@@ -14,6 +17,9 @@ class Kernel extends ConsoleKernel
      */
     protected $commands = [
         //
+        Rookie::class,
+        SortArithmetic::class,
+        Interviews::class
     ];
 
     /**

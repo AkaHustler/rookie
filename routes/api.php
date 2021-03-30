@@ -21,7 +21,8 @@ use Illuminate\Support\Facades\Route;
 //    return $request->user();
 //});
 
-Route::get('/test', [UserController::class, 'index']);
+Route::get('/user', [UserController::class, 'index']);
+
 
 Route::namespace('Api')->prefix('v1')->group(function () {
     Route::get('/users',[UserController::class, 'index'])->name('users.index');

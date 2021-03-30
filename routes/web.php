@@ -14,8 +14,10 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/user', [UserController::class, 'index']);
 
-Route::get('/test', [UserController::class, 'index']);
+Route::get('/tree', [UserController::class, 'tree']);
+
+Route::get('/es', [UserController::class, 'elasticsearch']);
+
+Route::get('/redis', [UserController::class, 'getAliAttribute']);
