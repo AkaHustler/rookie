@@ -22,7 +22,6 @@ class Kernel extends ConsoleKernel
         Rookie::class,
         SortArithmetic::class,
         Interviews::class,
-        Spatie::class,
         LeetCode::class
     ];
 
