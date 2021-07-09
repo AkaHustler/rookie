@@ -165,5 +165,11 @@ class Solution
 //$root = $obj->buildTree($inorder, $postorder);
 //print_r($root);
 
-$str = 'role:member:cache:%s:%s';
-echo sprintf($str, 12, 13);
+function mergeArr($nums1, $nums2) {
+    if (count($nums1) === 0 || count($nums2) === 0) {
+        return [];
+    }
+}
+
+$nums1 = [1,2,3];
+$nums2 = [2,5,6];
