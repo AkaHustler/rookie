@@ -157,19 +157,11 @@ class Solution
     }
 }
 
-//$obj = new Solution();
-//$inorder = [1,2];
-//$postorder = [2,1];
-////$inorder = [9,3,15,20,7];
-////$postorder = [9,15,7,20,3];
-//$root = $obj->buildTree($inorder, $postorder);
-//print_r($root);
+$obj = new Solution();
+$inorder = [1,2];
+$postorder = [2,1];
+//$inorder = [9,3,15,20,7];
+//$postorder = [9,15,7,20,3];
+$root = $obj->buildTree($inorder, $postorder);
+print_r($root);
 
-function mergeArr($nums1, $nums2) {
-    if (count($nums1) === 0 || count($nums2) === 0) {
-        return [];
-    }
-}
-
-$nums1 = [1,2,3];
-$nums2 = [2,5,6];
