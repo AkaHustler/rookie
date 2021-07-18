@@ -26,6 +26,9 @@ class TreeNode
 class Solution
 {
 
+    public array $map = [];
+    public array $res = [];
+
     /**
      * @param TreeNode $root
      * @return TreeNode
@@ -148,20 +151,105 @@ class Solution
     }
 
 
+
     /**
      * @param TreeNode $root
      * @return TreeNode[]
      */
     function findDuplicateSubtrees($root) {
+        $this->traverse($root);
+        return $this->res;
+    }
 
+    /**
+     * @param TreeNode $root
+     * @return string
+     */
+    private function traverse($root) {
+        //base case
+        if ($root == null) {
+            return '#';
+        }
+        //后序遍历递归子节点
+        $left   = $this->traverse($root->left);
+        $right  = $this->traverse($root->right);
+        //root 节点操作
+        $key = $left . '-' . $root->val . '-' . $right;
+        if (!array_key_exists($key, $this->map)) {
+            $this->map[$key] = $root;
+        } else {
+            echo $key . PHP_EOL;
+            $this->res[$key] = $root;
+        }
+        return $key;
+    }
+
+    /**
+     * @param TreeNode $root
+     * @param Integer $k
+     * @return Integer
+     */
+    function kthSmallest($root, $k) {
+        $res = null;
+        $rank = 0;
+        $this->middleOrder($root, $k, $res, $rank);
+        return $res;
+    }
+
+    /**
+     * @param TreeNode $root
+     * @param $k
+     */
+    function middleOrder($root, $k, &$res, &$rank) {
+        if ($root == null) {
+            return;
+        }
+        $this->middleOrder($root->left, $k, $res, $rank);
+        $rank++;
+        if ($rank == $k) {
+            //找到最小的了
+            $res = $root->val;
+            return ;
+        }
+        $this->middleOrder($root->right, $k, $res,  $rank);
+    }
+
+    /**
+     * 538：将BST转化为累加树
+     * @param $root
+     * @return mixed
+     */
+    function convertBST($root) {
+        $sum = 0;
+        $this->middleConvertBST($root, $sum);
+        return $root;
+    }
+
+    /**
+     * @param TreeNode $root
+     */
+    function middleConvertBST(&$root, &$sum) {
+        if ($root == null) {
+            return;
+        }
+        $this->middleConvertBST($root->right, $sum);
+        $sum += $root->val;
+        $root->val = $sum;
+        $this->middleConvertBST($root->left, $sum);
     }
 }
 
 $obj = new Solution();
-$inorder = [1,2];
-$postorder = [2,1];
-//$inorder = [9,3,15,20,7];
-//$postorder = [9,15,7,20,3];
-$root = $obj->buildTree($inorder, $postorder);
-print_r($root);
+$root = new TreeNode(4);
+$root->left = new TreeNode(1);
+$root->right = new TreeNode(6);
+$root->left->left = new TreeNode(0);
+$root->left->right = new TreeNode(2);
+$root->right->left = new TreeNode(5);
+$root->right->right = new TreeNode(7);
+$root->left->right->right = new TreeNode(3);
+$root->right->right->right = new TreeNode(8);
+
+$subject = $obj->convertBST($root);
+var_dump($subject);
 
