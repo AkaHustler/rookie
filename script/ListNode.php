@@ -18,7 +18,10 @@ class ListNode
 
 class Solution
 {
+    public $precursorNode;
+
     /**
+     * 反转全部链表
      * @param ListNode $head
      * @return ListNode
      */
@@ -27,8 +30,30 @@ class Solution
             return $head;
         }
         $last = $this->reverse($head->next);
+        //反转操作
         $head->next->next = $head;
         $head->next = null;
+        return $last;
+    }
+
+    /**
+     * 反转链表前N个节点
+     * @param ListNode $head
+     * @param $n
+     * @return ListNode
+     */
+    public function reverseN($head, $n) {
+        //base case
+        if ($n == 1) {
+            //记录第n+1个节点作为前驱节点
+            $this->precursorNode = $head->next;
+            return $head;
+        }
+        $last = $this->reverseN($head->next, $n - 1);
+        //反转操作
+        $head->next->next = $head;
+        //将n+1节点作为next节点
+        $head->next = $this->precursorNode;
         return $last;
     }
 }
@@ -40,4 +65,4 @@ $head->next->next->next = new ListNode(4);
 $head->next->next->next->next = new ListNode(5);
 print_r($head);
 $obj = new Solution();
-print_r($obj->reverse($head));
+print_r($obj->reverseN($head, 3));
