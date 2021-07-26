@@ -56,6 +56,22 @@ class Solution
         $head->next = $this->precursorNode;
         return $last;
     }
+
+    /**
+     * 反转[m, n]区间链表
+     * @param ListNode $head
+     * @param $m
+     * @param $n
+     * @return ListNode
+     */
+    public function reverseBetween(ListNode $head, $m ,$n) {
+        //base case
+        if ($m == 1) {
+            return $this->reverseN($head, $n);
+        }
+        $head->next = $this->reverseBetween($head->next, $m - 1, $n - 1);
+        return $head;
+    }
 }
 
 $head = new ListNode(1);
@@ -65,4 +81,4 @@ $head->next->next->next = new ListNode(4);
 $head->next->next->next->next = new ListNode(5);
 print_r($head);
 $obj = new Solution();
-print_r($obj->reverseN($head, 3));
+print_r($obj->reverseBetween($head, 2, 3));
