@@ -17,6 +17,7 @@ class ListNode
 }
 
 class SingleListSolution
+
 {
     public $precursorNode;
 
@@ -121,6 +122,7 @@ class SingleListSolution
     }
 
     /**
+     * 反转[m, n]区间链表 迭代 todo
      * @param ListNode $head
      * @param $m
      * @param $n
@@ -153,6 +155,50 @@ class SingleListSolution
         $rightNode->next = null;
 
     }
+
+    /**
+     * 反转[a,b)区间内的节点
+     * @param ListNode $a
+     * @param ListNode $b
+     * @return ListNode
+     */
+    public function reverseSectionNode($a, $b) {
+        if ($a == null || $a->next == null) {
+            return $a;
+        }
+        $pre = null;
+        while ($a !== $b) {
+            $tmp = $a->next;
+            $a->next = $pre;
+            $pre = $a;
+            $a = $tmp;
+        }
+        return $pre;
+    }
+
+    /**
+     * k个节点一组反转链表
+     * @param ListNode $head
+     * @param $k
+     * @return ListNode
+     */
+    public function reverseGroup($head, $k) {
+        //base case
+        if ($head == null || $head->next == null) {
+            return $head;
+        }
+        $a = $b = $head;
+        for ($i = 0; $i < $k; $i++) {
+            if ($b == null) {
+                return $head;
+            }
+            $b = $b->next;
+        }
+
+        $newHead = $this->reverseSectionNode($a, $b);
+        $a->next = $this->reverseGroup($b, $k);
+        return $newHead;
+    }
 }
 
 $head = new ListNode(1);
@@ -160,7 +206,6 @@ $head->next = new ListNode(2);
 $head->next->next = new ListNode(3);
 $head->next->next->next = new ListNode(4);
 $head->next->next->next->next = new ListNode(5);
-$head->next->next->next->next->next = new ListNode(6);
 print_r($head);
 $obj = new SingleListSolution();
-print_r($obj->reverseBetweenIteration($head, 3, 4));
+print_r($obj->reverseGroup($head, 3));
