@@ -21,3 +21,5 @@ Route::get('/tree', [UserController::class, 'tree']);
 Route::get('/es', [UserController::class, 'elasticsearch']);
 
 Route::get('/redis', [UserController::class, 'getAliAttribute']);
+
+Route::get('/demo', [UserController::class, 'demo']);
