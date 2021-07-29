@@ -32,7 +32,7 @@ class StringSolution
             return '';
         }
         $ret = '';
-        for ($i = 0; $i < strlen($str); $i++) {
+        for ($i = 0, $len = strlen($str); $i < $len; $i++) {
             //寻找以$s[$i]为中心最长的回文子串
             $ret1   = $this->palindrome($str, $i, $i);
             //寻找以$s[$i]和$s[$i+1]为中心的最长回文子串
