@@ -11,11 +11,17 @@ class ListNode
     public $val;
     public $next;
 
-    public function __construct($val) {
+    public function __construct($val)
+    {
         $this->val = $val;
     }
+
 }
 
+/**
+ * 单链表
+ * Class SingleListSolution
+ */
 class SingleListSolution
 
 {
@@ -47,6 +53,7 @@ class SingleListSolution
         if ($head == null || $head->next == null) {
             return $head;
         }
+        //双指针，pre指针是每次接收反转后的节点，head指针是遍历原本链表
         $pre = null;
         while ($head != null) {
             $tmp = $head->next;
@@ -157,26 +164,6 @@ class SingleListSolution
     }
 
     /**
-     * 反转[a,b)区间内的节点
-     * @param ListNode $a
-     * @param ListNode $b
-     * @return ListNode
-     */
-    public function reverseSectionNode($a, $b) {
-        if ($a == null || $a->next == null) {
-            return $a;
-        }
-        $pre = null;
-        while ($a !== $b) {
-            $tmp = $a->next;
-            $a->next = $pre;
-            $pre = $a;
-            $a = $tmp;
-        }
-        return $pre;
-    }
-
-    /**
      * k个节点一组反转链表
      * @param ListNode $head
      * @param $k
@@ -199,13 +186,79 @@ class SingleListSolution
         $a->next = $this->reverseGroup($b, $k);
         return $newHead;
     }
+
+    /**
+     * 反转[a,b)区间内的节点
+     * @param ListNode $a
+     * @param ListNode $b
+     * @return ListNode
+     */
+    public function reverseSectionNode($a, $b) {
+        if ($a == null || $a->next == null) {
+            return $a;
+        }
+        $pre = null;
+        while ($a !== $b) {
+            $tmp = $a->next;
+            $a->next = $pre;
+            $pre = $a;
+            $a = $tmp;
+        }
+        return $pre;
+    }
+
+    //删除排序链表中的重复元素 递归
+    //82 https://leetcode-cn.com/problems/remove-duplicates-from-sorted-list-ii/
+    public function deleteDuplicates($head)
+    {
+        //base case
+        if ($head == null || $head->next == null) {
+            return $head;
+        }
+        //删除以head为头节点的链表里重复的值
+        if ($head->val != $head->next->val) {
+            //头节点的值不等于下个节点的值
+            //head肯定不删除，但是要删除以head->next为头节点的链表重复的值
+            $head->next = $this->deleteDuplicates($head->next);
+        } else {
+            //头节点的值等于下个节点的值
+            //要找到下个不相等的值
+            $move = $head->next;
+            while ($move != null && $move->val == $head->val) {
+                $move = $move->next;
+            }
+            return $this->deleteDuplicates($move);
+        }
+        return $head;
+    }
+
+    //删除排序链表中的重复元素 迭代
+    public function deleteDuplicatesIteration($head)
+    {
+        if ($head == null || $head->next == null) {
+            return $head;
+        }
+        $dummy = new ListNode(0);
+        $dummy->next = $head;
+        $pre = $dummy;
+        $cur = $head;
+        while ($cur->next != null) {
+            while ($cur->val == $cur->next->val) {
+                //跳过重复的节点
+                $cur = $cur->next;
+            }
+            
+        }
+    }
 }
 
 $head = new ListNode(1);
 $head->next = new ListNode(2);
 $head->next->next = new ListNode(3);
-$head->next->next->next = new ListNode(4);
-$head->next->next->next->next = new ListNode(5);
+$head->next->next->next = new ListNode(3);
+$head->next->next->next->next = new ListNode(4);
+$head->next->next->next->next->next = new ListNode(4);
+$head->next->next->next->next->next->next = new ListNode(5);
 print_r($head);
 $obj = new SingleListSolution();
-print_r($obj->reverseGroup($head, 3));
+print_r($obj->deleteDuplicates($head));

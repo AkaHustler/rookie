@@ -42,7 +42,31 @@ class StringSolution
         }
         return $ret;
     }
+
+    /**
+     * 最长无重复子串
+     * @param $s
+     * @return int
+     */
+    public function lengthOfLongestSubstring($s)
+    {
+        if (empty($s)) {
+            return 0;
+        }
+        $str = '';
+        for ($i = 0, $iMax = strlen($s); $i < $iMax; $i++) {
+            $tmp = $s[$i];
+            for ($j = $i + 1; $j < $iMax; $j++) {
+                if (strpos($tmp, $s[$j]) !== false) {
+                    break;
+                }
+                $tmp .= $s[$j];
+            }
+            $str = strlen($str) > strlen($tmp) ? $str : $tmp;
+        }
+        return strlen($str);
+    }
 }
 
 $obj = new StringSolution();
-var_dump($obj->longestPalindrome("babad"));
+var_dump($obj->lengthOfLongestSubstring("abcabcbb"));
