@@ -55,7 +55,54 @@ class SortSolution
     }
 
     //归并排序
-    public function mergeSort($arr) {}
+    public function mergeSort($arr)
+    {
+        if (empty($arr)) {
+            return $arr;
+        }
+        $this->mSort($arr, 0, count($arr) - 1);
+        return $arr;
+    }
+
+    private function mSort(&$arr, $left, $right)
+    {
+        $mid = floor(($left + $right) / 2);
+        if ($left < $right) {
+            $this->mSort($arr, $left, $mid);
+            $this->mSort($arr, $mid + 1, $right);
+            $this->merge($arr, $left, $mid, $right);
+        }
+    }
+
+    //合并函数
+    private function merge(&$arr, $left, $mid, $right)
+    {
+        $tmp = array();
+        $i = $left; //左指针
+        $j = $mid + 1; //右指针
+        $k = 0;
+        // 把较小的数先转移到新数组中
+        while ($i <= $mid && $j <= $right) {
+            if ($arr[$i] < $arr[$j]) {
+                $tmp[$k++] = $arr[$i++];
+            } else {
+                $tmp[$k++] = $arr[$j++];
+            }
+        }
+        //把左边剩余的数移入数组
+        while ($i <= $mid) {
+            $tmp[$k++] = $arr[$i++];
+        }
+        //把右边剩余的数移入数组
+        while ($j <= $right) {
+            $tmp[$k++] = $arr[$j++];
+        }
+
+        //把新数组中的覆盖nums数组
+        foreach ($tmp as $k2 => $k2Value) {
+            $arr[$k2 + $left] = $k2Value;
+        }
+    }
 
     //搜索旋转排序数组
     //33 https://leetcode-cn.com/problems/search-in-rotated-sorted-array
@@ -101,6 +148,29 @@ class SortSolution
         return -1;
     }
 
+    //缺失的第一正整数
+    //41 https://leetcode-cn.com/problems/first-missing-positive/
+    public function firstMissingPositive($nums)
+    {
+        //[3,4,-1,1]
+        //[-1,4,3,1]
+        //[-1,1,3,4]
+        $size = count($nums);
+        //原地hash [1,N+1]
+        for ($i = 0; $i < $size; $i++) {
+            while ($nums[$i] > 0 && $nums[$i] <= $size && $nums[$i] != $nums[$nums[$i]-1]) {
+                $this->swap($nums, $i, $nums[$i] - 1);
+            }
+        }
+        //这个地方是因为循环里有涉及到iValue值的修改
+        foreach ($nums as $key => $value) {
+            if ($key + 1 != $value) {
+                return $key + 1;
+            }
+        }
+        return $size + 1;
+    }
+
     private function swap(&$arr, $i, $j)
     {
         $tmp = $arr[$i];
@@ -111,6 +181,5 @@ class SortSolution
 }
 
 $obj = new SortSolution();
-$arr = array(3,1);
-var_dump($arr);
-var_dump($obj->search($arr, 0));
+$arr = array(5,6,2,4,9,1);
+var_dump($obj->mergeSort($arr));

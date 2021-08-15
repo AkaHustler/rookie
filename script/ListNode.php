@@ -1,10 +1,10 @@
 <?php
 /**
-* @FileName: ListNode.php
-* @Author: houzhongbo
-* @Mail:houzhongbo@zuoyebang.com
-* @Created Time: 2021-07-21 11:55:09
-*/
+ * @FileName: ListNode.php
+ * @Author: houzhongbo
+ * @Mail:houzhongbo@zuoyebang.com
+ * @Created Time: 2021-07-21 11:55:09
+ */
 
 class ListNode
 {
@@ -32,7 +32,8 @@ class SingleListSolution
      * @param ListNode $head
      * @return ListNode
      */
-    public function reverse($head) {
+    public function reverse($head)
+    {
         if ($head->next == null) {
             return $head;
         }
@@ -48,7 +49,8 @@ class SingleListSolution
      * @param ListNode $head
      * @return ListNode
      */
-    public function reverseIteration($head) {
+    public function reverseIteration($head)
+    {
         //base case
         if ($head == null || $head->next == null) {
             return $head;
@@ -70,7 +72,8 @@ class SingleListSolution
      * @param $n
      * @return ListNode
      */
-    public function reverseN($head, $n) {
+    public function reverseN($head, $n)
+    {
         //base case
         if ($n == 1) {
             //记录第n+1个节点作为前驱节点
@@ -87,11 +90,12 @@ class SingleListSolution
 
     /**
      * 反转链表前N个节点(迭代) 要先把左右节点拿出来
-     * @param  ListNode $head
+     * @param ListNode $head
      * @param $n
      * @return ListNode
      */
-    public function reverseNIteration($head, $n) {
+    public function reverseNIteration($head, $n)
+    {
         if ($head == null || $head->next == null) {
             return $head;
         }
@@ -119,7 +123,8 @@ class SingleListSolution
      * @param $n
      * @return ListNode
      */
-    public function reverseBetween(ListNode $head, $m ,$n) {
+    public function reverseBetween(ListNode $head, $m, $n)
+    {
         //base case
         if ($m == 1) {
             return $this->reverseN($head, $n);
@@ -135,7 +140,8 @@ class SingleListSolution
      * @param $n
      * @return ListNode
      */
-    public function reverseBetweenIteration(ListNode $head, $m, $n) {
+    public function reverseBetweenIteration(ListNode $head, $m, $n)
+    {
         if ($head == null || $head->next == null) {
             return $head;
         }
@@ -155,7 +161,8 @@ class SingleListSolution
         $curr = $rightNode->next;
 
         $reverse = $this->reverseIteration($reverse);
-        print_r($reverse);die;
+        print_r($reverse);
+        die;
 
         //切断链接
         $pre->next = null;
@@ -169,7 +176,8 @@ class SingleListSolution
      * @param $k
      * @return ListNode
      */
-    public function reverseGroup($head, $k) {
+    public function reverseGroup($head, $k)
+    {
         //base case
         if ($head == null || $head->next == null) {
             return $head;
@@ -193,7 +201,8 @@ class SingleListSolution
      * @param ListNode $b
      * @return ListNode
      */
-    public function reverseSectionNode($a, $b) {
+    public function reverseSectionNode($a, $b)
+    {
         if ($a == null || $a->next == null) {
             return $a;
         }
@@ -235,20 +244,26 @@ class SingleListSolution
     //删除排序链表中的重复元素 迭代
     public function deleteDuplicatesIteration($head)
     {
-        if ($head == null || $head->next == null) {
-            return $head;
-        }
-        $dummy = new ListNode(0);
-        $dummy->next = $head;
-        $pre = $dummy;
-        $cur = $head;
-        while ($cur->next != null) {
-            while ($cur->val == $cur->next->val) {
-                //跳过重复的节点
-                $cur = $cur->next;
+        //建立一个虚拟头节点
+        $dummyHead = new ListNode(null);
+        $dummyHead->next = $head;
+        $curNode = $dummyHead;
+        while ($curNode->next) {
+            $val = $curNode->next->val;
+            $end = $curNode->next;
+            //判断是否有重复元素
+            if ($end->next && $end->next->val == $val) {
+                //有则二层遍历，直到找到不是该值的节点
+                while ($end->next && $end->next->val == $val) {
+                    $end = $end->next;
+                }
+                $curNode->next = $end->next;
+            } else {
+                $curNode = $curNode->next;
             }
-            
         }
+        return $dummyHead->next;
+
     }
 }
 
@@ -261,4 +276,4 @@ $head->next->next->next->next->next = new ListNode(4);
 $head->next->next->next->next->next->next = new ListNode(5);
 print_r($head);
 $obj = new SingleListSolution();
-print_r($obj->deleteDuplicates($head));
+print_r($obj->deleteDuplicatesIteration($head));
