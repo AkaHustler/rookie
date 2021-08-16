@@ -70,7 +70,8 @@ class Solution
         return $root;
     }
 
-    function getMax($nums) {
+    function getMax($nums)
+    {
         $max = 0;
         $i = $nums[$max] ?? 0;
         foreach ($nums as $key => $value) {
