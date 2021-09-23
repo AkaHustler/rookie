@@ -18,14 +18,13 @@ class SortSolution
         return $arr;
     }
 
-
+    //快速排序
     public function quickSort($arr)
     {
         $this->quickSortArr($arr, 0, count($arr) - 1);
         return $arr;
     }
 
-    //快速排序
     private function quickSortArr(&$arr, $low, $high) {
         if ($low < $high) {
             $pos = $this->quickSortPartition($arr, $low, $high);
@@ -104,7 +103,9 @@ class SortSolution
         }
     }
 
-    //堆排序
+    //希尔排序
+    public function shellSort($arr)
+    {}
 
     //搜索旋转排序数组
     //33 https://leetcode-cn.com/problems/search-in-rotated-sorted-array
